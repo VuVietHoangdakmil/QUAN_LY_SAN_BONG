@@ -25,7 +25,8 @@ namespace DO_AN_CHUYEN_NGANH.Controllers
             if (Search != "")
             {
 
-                var tkSDT = from ctd in data.SANs where ctd.TEN_SAN.ToUpper().Trim().Contains(Search.ToUpper().Trim()) select ctd;
+                var tkSDT = from ctd in data.SANs where ctd.TEN_SAN.ToUpper().Trim().Contains(Search.ToUpper().Trim()) && ctd.TINH_TRANG_XOA == false select ctd;
+
 
                 if (tkSDT.Count() == 0)
                 {
@@ -53,7 +54,7 @@ namespace DO_AN_CHUYEN_NGANH.Controllers
         {
             int pagesize = 8;
             int pagenum = (page ?? 1);
-            var santheoloai = from sanTL in data.SANs where sanTL.MA_LOAI == id select sanTL;
+            var santheoloai = from sanTL in data.SANs where sanTL.MA_LOAI == id && sanTL.TINH_TRANG_XOA == false select sanTL;
             var tenloai = from san in data.LOAI_SANs where san.MA_LOAI == id select san.TEN_LOAI;
             ViewBag.TENLOAI = tenloai.Single();
             return View(santheoloai.OrderByDescending(n => n.MA_SAN).ToPagedList(pagenum, pagesize));
